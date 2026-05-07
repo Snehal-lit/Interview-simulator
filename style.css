@@ -1,0 +1,324 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+    --color-bg: #F7F5F3;
+    --color-text: #1A1A1A;
+    --color-secondary: #6B6B6B;
+    --color-btn: #2F2F2F;
+    --color-card: #FFFFFF;
+    --color-border: #E8E6E3;
+    --color-accent: #6C63FF;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: #F7F5F3;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #D1CFC9;
+    border-radius: 3px;
+}
+
+/* Animation utilities */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(0.8);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.pulse-ring {
+    animation: pulse-ring 1.5s ease-out infinite;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, #6C63FF, #A78BFA);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.card-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.btn-primary {
+    background-color: #2F2F2F;
+    color: #fff;
+    padding: 0.65rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary:hover {
+    background-color: #1a1a1a;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: #2F2F2F;
+    padding: 0.65rem 1.5rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border: 1.5px solid #E8E6E3;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-secondary:hover {
+    border-color: #2F2F2F;
+    background-color: #f0eeec;
+}
+
+.btn-accent {
+    background: linear-gradient(135deg, #6C63FF, #8B83FF);
+    color: #fff;
+    padding: 0.75rem 2rem;
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 20px rgba(108, 99, 255, 0.35);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-accent:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(108, 99, 255, 0.45);
+}
+
+.glass-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(232, 230, 227, 0.8);
+    border-radius: 16px;
+}
+
+/* Page routing system */
+.page {
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.page.active {
+    display: block;
+    opacity: 1;
+}
+
+/* Nav links hover effects */
+.nav-link {
+    color: #6B6B6B;
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    transition: color 0.2s, background 0.2s;
+}
+
+.nav-link:hover {
+    color: #1A1A1A;
+    background: #F7F5F3;
+}
+
+.footer-link {
+    font-size: 0.85rem;
+    color: #6B6B6B;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.footer-link:hover {
+    color: #1A1A1A;
+}
+
+/* Input Fields */
+.input-base {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid #E8E6E3;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #1A1A1A;
+    background: #fff;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.input-base:focus {
+    border-color: #6C63FF;
+}
+
+/* Utility to hide elements */
+.hidden {
+    display: none !important;
+}
+
+/* Specific elements for pages */
+#recording-pulses {
+    display: none;
+}
+
+#recording-pulses.active {
+    display: block;
+}
+
+.mic-btn {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: #2F2F2F;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s;
+    position: relative;
+    z-index: 2;
+}
+
+.mic-btn.recording {
+    background: #EF4444;
+    box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+}
+
+.domain-btn {
+    padding: 0.65rem 1rem;
+    border: 1.5px solid #E8E6E3;
+    border-radius: 10px;
+    background: #F7F5F3;
+    color: #6B6B6B;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.domain-btn.selected {
+    border-color: #6C63FF;
+    background: #F0EFFE;
+    color: #6C63FF;
+    font-weight: 700;
+}
+
+.level-btn {
+    flex: 1;
+    padding: 0.7rem;
+    border: 1.5px solid #E8E6E3;
+    border-radius: 10px;
+    background: #F7F5F3;
+    color: #6B6B6B;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Inter', sans-serif;
+}
+
+.level-btn.selected {
+    border-color: #6C63FF;
+    background: #F0EFFE;
+    color: #6C63FF;
+    font-weight: 700;
+}

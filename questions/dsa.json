@@ -1,0 +1,122 @@
+[
+  {
+    "id": "DSA_001",
+    "topic": "DSA",
+    "difficulty": "easy",
+    "question": "What is an Array and how are its elements stored in memory?",
+    "keywords": ["contiguous", "memory", "index", "fixed-size", "data structure"],
+    "model_answer": "An array is a linear data structure that stores a collection of elements, typically of the same data type. The elements of an array are stored in contiguous memory locations, which allows for efficient access using an index. Because the memory is allocated contiguously, the size of a standard array is fixed-size upon creation. This contiguous allocation enables O(1) time complexity for reading elements."
+  },
+  {
+    "id": "DSA_002",
+    "topic": "DSA",
+    "difficulty": "easy",
+    "question": "What is the primary difference between a Stack and a Queue?",
+    "keywords": ["LIFO", "FIFO", "push", "pop", "enqueue"],
+    "model_answer": "The primary difference lies in their order of operations. A stack follows the Last-In-First-Out (LIFO) principle, meaning the last element added using push is the first one to be removed via pop. In contrast, a queue follows the First-In-First-Out (FIFO) principle, where the first element added via enqueue is the first element removed via dequeue. Stacks are often used for depth-first search, while queues are standard for breadth-first search."
+  },
+  {
+    "id": "DSA_003",
+    "topic": "DSA",
+    "difficulty": "easy",
+    "question": "Explain the concept of a Linked List and its main advantage over an array.",
+    "keywords": ["nodes", "pointers", "dynamic", "insertion", "deletion"],
+    "model_answer": "A linked list is a linear data structure composed of nodes, where each node contains data and a pointer to the next node in the sequence. Unlike arrays, linked lists do not store elements in contiguous memory locations, making them a dynamic data structure. Their main advantage is that insertion and deletion operations are generally faster, as they only require updating pointers without needing to shift existing elements."
+  },
+  {
+    "id": "DSA_004",
+    "topic": "DSA",
+    "difficulty": "easy",
+    "question": "What are the requirements and time complexity of Binary Search?",
+    "keywords": ["sorted", "divide and conquer", "logarithmic", "middle element", "time complexity"],
+    "model_answer": "Binary search is an efficient divide and conquer algorithm used to locate an element within a sorted array. The fundamental requirement is that the array must be sorted prior to searching. It works by repeatedly dividing the search interval in half by comparing the target value to the middle element. As a result, its time complexity is logarithmic, specifically O(log n), making it vastly superior to linear search for large datasets."
+  },
+  {
+    "id": "DSA_005",
+    "topic": "DSA",
+    "difficulty": "easy",
+    "question": "What is recursion and what are its essential components?",
+    "keywords": ["base case", "recursive call", "call stack", "termination", "function"],
+    "model_answer": "Recursion is a programming technique where a function calls itself repeatedly to solve a smaller instance of the same problem. Its two essential components are the base case and the recursive call. The base case provides a termination condition to prevent infinite loops and stack overflow errors. The recursive call breaks the problem down, utilizing the system's call stack to store temporary states until the base case is reached."
+  },
+  {
+    "id": "DSA_006",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "question": "How do you detect a cycle in a Linked List?",
+    "keywords": ["Floyd's", "slow pointer", "fast pointer", "cycle", "traversing"],
+    "model_answer": "A cycle in a linked list can be efficiently detected using Floyd's Cycle-Finding Algorithm, also known as the tortoise and hare approach. This involves using two pointers traversing the list at different speeds: a slow pointer moving one node at a time, and a fast pointer moving two nodes. If there is a cycle, the fast pointer will eventually wrap around and meet the slow pointer. If the fast pointer reaches the end of the list (null), the list has no cycle."
+  },
+  {
+    "id": "DSA_007",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "question": "Compare Quick Sort and Merge Sort. When would you prefer one over the other?",
+    "keywords": ["divide and conquer", "in-place", "stable", "worst-case", "pivot"],
+    "model_answer": "Both Quick Sort and Merge Sort are divide and conquer sorting algorithms, but they process data differently. Merge Sort is a stable sort that guarantees O(n log n) time complexity, making it ideal for linked lists or when worst-case performance is critical. Quick Sort, while generally having an O(n^2) worst-case, is preferred for in-memory arrays because it acts as an in-place sort and has smaller constant factors. The choice of the pivot element in Quick Sort heavily dictates its performance."
+  },
+  {
+    "id": "DSA_008",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "question": "Explain the difference between Breadth-First Search (BFS) and Depth-First Search (DFS) in trees.",
+    "keywords": ["queue", "stack", "level", "branch", "memory"],
+    "model_answer": "BFS and DFS are traversing techniques applied to trees and graphs. BFS explores nodes level by level horizontally, utilizing a queue data structure to manage discoveries. DFS explores as far down a specific branch as possible before backtracking, typically utilizing a stack or recursion. BFS is better suited for finding the shortest path in an unweighted tree, whereas DFS consumes less memory for deep trees and is ideal for topology-related puzzles."
+  },
+  {
+    "id": "DSA_009",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "question": "How can you implement a Queue using only Stacks?",
+    "keywords": ["push", "pop", "two stacks", "transfer", "amortized"],
+    "model_answer": "A queue can be implemented using two stacks by dividing the operations into input and output phases. For enqueue operations, elements are simply processed with a push onto the first stack. During a dequeue operation, if the second stack is empty, all elements are popped from the first stack and sent with a push into the second stack sequentially. This transfer reverses the LIFO order to FIFO, allowing the second stack to pop the oldest element in O(1) amortized time."
+  },
+  {
+    "id": "DSA_010",
+    "topic": "DSA",
+    "difficulty": "medium",
+    "question": "What is tail recursion and why is it beneficial?",
+    "keywords": ["last operation", "stack frame", "optimization", "memory", "call stack"],
+    "model_answer": "Tail recursion occurs when the recursive call is the very last operation performed within a function, with no computation pending after its return. It is beneficial because many modern compilers can perform tail call optimization, which reuses the current stack frame for the next recursive step. This prevents the call stack from growing proportionally with depth, effectively eliminating the risk of stack overflow and reducing memory consumption."
+  },
+  {
+    "id": "DSA_011",
+    "topic": "DSA",
+    "difficulty": "hard",
+    "question": "What is the difference between Memoization and Tabulation in Dynamic Programming?",
+    "keywords": ["top-down", "bottom-up", "caching", "subproblems", "recursive"],
+    "model_answer": "Memoization and tabulation are two distinct approaches to dynamic programming. Memoization is a top-down approach that leverages a recursive algorithm, caching the results of solved subproblems to avoid redundant calculations. Tabulation is a bottom-up approach that iteratively fills a table (typically an array) starting from the smallest base cases and building up to the final answer. Tabulation avoids the overhead of recursive calls, while memoization only evaluates subproblems that are strictly necessary."
+  },
+  {
+    "id": "DSA_012",
+    "topic": "DSA",
+    "difficulty": "hard",
+    "question": "How does Dijkstra's algorithm work and what are its limitations?",
+    "keywords": ["shortest path", "greedy", "priority queue", "negative weights", "relaxation"],
+    "model_answer": "Dijkstra's algorithm is a greedy algorithm designed to find the shortest path from a single source node to all other nodes in a weighted graph. It works by maintaining a priority queue of vertices to continually explore the adjacent, unvisited node with the lowest cumulative distance, performing edge relaxation along the way. Its primary limitation is that it fails to yield correct results if the graph contains edges with negative weights, for which Bellman-Ford must be used."
+  },
+  {
+    "id": "DSA_013",
+    "topic": "DSA",
+    "difficulty": "hard",
+    "question": "Explain the concept properties of an AVL Tree.",
+    "keywords": ["self-balancing", "binary search tree", "balance factor", "rotations", "height"],
+    "model_answer": "An AVL tree is a self-balancing binary search tree where the difference in heights between the left and right subtrees of any node is at most 1. This difference is known as the balance factor. Whenever an insertion or deletion violates this property, the tree autonomously restores its balance using specific structural adjustments called rotations (Left, Right, Left-Right, or Right-Left). Because it restricts the tree height to logarithmic bounds, all primary operations are guaranteed to run in O(log n) time."
+  },
+  {
+    "id": "DSA_014",
+    "topic": "DSA",
+    "difficulty": "hard",
+    "question": "Describe the 0/1 Knapsack Problem and its dynamic programming formulation.",
+    "keywords": ["optimization", "weights", "values", "capacity", "overlapping subproblems"],
+    "model_answer": "The 0/1 Knapsack Problem is an optimization challenge where a set of items, each with specific weights and values, must be chosen to maximize total value without exceeding a given weight capacity constraint. It is denoted as '0/1' because fractions of items cannot be taken; an item is either fully included or excluded. Using dynamic programming, a 2D array is constructed mapping item combinations against incremental capacities, efficiently solving overlapping subproblems in pseudo-polynomial time."
+  },
+  {
+    "id": "DSA_015",
+    "topic": "DSA",
+    "difficulty": "hard",
+    "question": "What is Topological Sorting and what type of graph is it applicable to?",
+    "keywords": ["linear ordering", "dependencies", "Directed Acyclic Graph", "DAG", "indegree"],
+    "model_answer": "Topological sorting is a linear ordering of vertices in a Directed Acyclic Graph (DAG) such that for every directed edge from node A to node B, node A appears before B in the sequence. It is primarily used to schedule tasks that have prerequisite dependencies, such as compiling software packages. The algorithm often tracks the indegree of nodes and utilizes a queue for processing, and it is strictly applicable only to DAGs, as cycles impede strict precedence."
+  }
+]

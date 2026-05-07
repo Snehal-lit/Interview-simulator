@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adaptive Technical Interview Simulator</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged }
+      from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD9chLZWr5vda7n1lA3q4g2fEXXtCzjiu4",
+      authDomain: "interview-simulator-c3a08.firebaseapp.com",
+      projectId: "interview-simulator-c3a08",
+      storageBucket: "interview-simulator-c3a08.firebasestorage.app",
+      messagingSenderId: "319686655498",
+      appId: "1:319686655498:web:294d1f803583fdca0f69f3"
+    };
+
+    const app   = initializeApp(firebaseConfig);
+    const auth  = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // Expose to global scope so script.js can use them
+    window._firebaseAuth     = auth;
+    window._googleProvider   = provider;
+    window._signInWithPopup  = signInWithPopup;
+    window._signOut          = signOut;
+    window._onAuthStateChanged = onAuthStateChanged;
+  </script>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css?v=2" />
+</head>
+
+<body>
+
+  <!-- ========================= -->
+  <!--     LANDING PAGE          -->
+  <!-- ========================= -->
+  <div id="page-home" class="page active">
+
+    <!-- Navbar -->
+    <header class="fixed top-0 left-0 right-0 z-50 flex justify-center pt-5 px-4">
+      <nav
+        style="background: rgba(255,255,255,0.85); backdrop-filter: blur(16px); border: 1px solid #E8E6E3; border-radius: 999px; padding: 0.5rem 1.25rem; box-shadow: 0 4px 24px rgba(0,0,0,0.06); display: flex; align-items: center; gap: 2rem; max-width: 860px; width: 100%;">
+        <a href="#home"
+          style="font-weight: 800; font-size: 1.1rem; color: #1A1A1A; text-decoration: none; letter-spacing: -0.02em; white-space: nowrap; display: flex; align-items: center; gap: 0.4rem;">
+          <span
+            style="width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #6C63FF, #A78BFA); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 0.8rem; font-weight: 900; flex-shrink: 0;">AI</span>
+          Adaptive Interview
+        </a>
+        <div style="flex: 1; display: flex; justify-content: center; gap: 0.25rem;">
+          <a href="#features" class="nav-link">Features</a>
+          <a href="#how-it-works" class="nav-link">How It Works</a>
+          <a href="#pricing" class="nav-link">Pricing</a>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button class="btn-secondary" style="padding: 0.45rem 1.1rem; font-size: 0.8rem;"
+            onclick="navigateTo('login')">Log In</button>
+          <button class="btn-primary" style="padding: 0.45rem 1.1rem; font-size: 0.8rem;"
+            onclick="navigateTo('login')">Sign Up</button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero"
+      style="padding-top: 130px; padding-bottom: 80px; text-align: center; max-width: 1100px; margin: 0 auto; padding: 130px 24px 80px;">
+      <div
+        style="display: inline-flex; align-items: center; gap: 0.4rem; background: #fff; border: 1px solid #E8E6E3; border-radius: 999px; padding: 0.35rem 0.9rem; margin-bottom: 2rem; font-size: 0.78rem; color: #6B6B6B; font-weight: 500; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+        <span style="width: 7px; height: 7px; border-radius: 50%; background: #10B981; display: inline-block;"></span>
+        Voice-First · Adaptive
+      </div>
+      <h1
+        style="font-size: clamp(2.8rem, 6vw, 4.5rem); font-weight: 900; line-height: 1.08; letter-spacing: -0.03em; color: #1A1A1A; margin-bottom: 1.5rem; max-width: 900px; margin: 0 auto 1.5rem;">
+        Adaptive Technical<br />
+        <span class="gradient-text">Interview Simulator</span>
+      </h1>
+      <p
+        style="font-size: 1.15rem; color: #6B6B6B; max-width: 560px; margin: 0 auto 2.5rem; line-height: 1.7; font-weight: 400;">
+        Practice real interview scenarios with voice-based answers, adaptive question selection, and automated feedback.
+      </p>
+      <div style="display: flex; gap: 0.75rem; justify-content: center; margin-bottom: 4rem; flex-wrap: wrap;">
+        <button class="btn-accent" onclick="navigateTo('setup')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="5 3 19 12 5 21 5 3" />
+          </svg>
+          Start Interview
+        </button>
+
+      </div>
+      <!-- Dashboard Preview -->
+      <div class="animate-float">
+        <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 20px; padding: 1.5rem; box-shadow: 0 24px 60px rgba(0,0,0,0.1); max-width: 780px; margin: 0 auto; text-align: left;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <div>
+              <p
+                style="font-size: 0.7rem; color: #6B6B6B; margin: 0; text-transform: uppercase; letter-spacing: 0.05em;">
+                Interview Session</p>
+              <p style="font-size: 1rem; font-weight: 700; color: #1A1A1A; margin: 0;">Performance Overview</p>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+              <span
+                style="background: #F7F5F3; border: 1px solid #E8E6E3; border-radius: 999px; padding: 0.2rem 0.6rem; font-size: 0.7rem; color: #6B6B6B; font-weight: 500;">React</span>
+              <span
+                style="background: #F7F5F3; border: 1px solid #E8E6E3; border-radius: 999px; padding: 0.2rem 0.6rem; font-size: 0.7rem; color: #6B6B6B; font-weight: 500;">JavaScript</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" style="padding: 80px 24px; max-width: 1100px; margin: 0 auto;">
+      <div style="text-align: center; margin-bottom: 3rem;">
+        <span
+          style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #6C63FF;">Capabilities</span>
+        <h2
+          style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; letter-spacing: -0.025em; color: #1A1A1A; margin: 0.5rem 0 1rem;">
+          Everything You Need to Ace Interviews</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.25rem;">
+        <!-- Card 1 -->
+        <div class="card-hover"
+          style="background: #fff; border: 1px solid #E8E6E3; border-radius: 20px; padding: 2rem; position: relative; overflow: hidden;">
+          <div
+            style="width: 48px; height: 48px; border-radius: 12px; background: #F0EFFE; display: flex; align-items: center; justify-content: center; color: #6C63FF; margin-bottom: 1.25rem;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path
+                d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: #1A1A1A; margin-bottom: 0.6rem;">Adaptive Question
+            Engine</h3>
+          <p style="color: #6B6B6B; line-height: 1.7; font-size: 0.9rem; margin: 0;">The system dynamically adjusts
+            difficulty based on your performance.</p>
+        </div>
+        <!-- Card 2 -->
+        <div class="card-hover"
+          style="background: #fff; border: 1px solid #E8E6E3; border-radius: 20px; padding: 2rem; position: relative; overflow: hidden;">
+          <div
+            style="width: 48px; height: 48px; border-radius: 12px; background: #ECFDF5; display: flex; align-items: center; justify-content: center; color: #10B981; margin-bottom: 1.25rem;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+              <line x1="12" y1="19" x2="12" y2="23"></line>
+              <line x1="8" y1="23" x2="16" y2="23"></line>
+            </svg>
+          </div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: #1A1A1A; margin-bottom: 0.6rem;">Voice-Based Interview
+          </h3>
+          <p style="color: #6B6B6B; line-height: 1.7; font-size: 0.9rem; margin: 0;">Answer questions using voice with
+            real-time speech transcription. Experience a realistic interview environment from anywhere.</p>
+        </div>
+        <!-- Card 3 -->
+        <div class="card-hover"
+          style="background: #fff; border: 1px solid #E8E6E3; border-radius: 20px; padding: 2rem; position: relative; overflow: hidden;">
+          <div
+            style="width: 48px; height: 48px; border-radius: 12px; background: #FFFBEB; display: flex; align-items: center; justify-content: center; color: #F59E0B; margin-bottom: 1.25rem;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+            </svg>
+          </div>
+          <h3 style="font-size: 1.1rem; font-weight: 700; color: #1A1A1A; margin-bottom: 0.6rem;">Automated Evaluation
+          </h3>
+          <p style="color: #6B6B6B; line-height: 1.7; font-size: 0.9rem; margin: 0;">Your answers are evaluated using
+            keyword matching, similarity scoring, and rule checks for comprehensive, instant feedback.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" style="padding: 100px 24px; background: #FAFAFA; border-top: 1px solid #E8E6E3; border-bottom: 1px solid #E8E6E3;">
+      <div style="max-width: 1100px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 4rem;">
+          <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #6C63FF;">Process</span>
+          <h2 style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; letter-spacing: -0.025em; color: #1A1A1A; margin: 0.5rem 0 1rem;">How It Works</h2>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; position: relative; gap: 1rem; flex-wrap: wrap;">
+          <!-- Connecting Line (hidden on small screens) -->
+          <div class="hidden md:block" style="position: absolute; top: 40px; left: 10%; right: 10%; height: 2px; background: #E8E6E3; z-index: 0;"></div>
+          
+          <!-- Step 1 -->
+          <div style="flex: 1; min-width: 150px; text-align: center; position: relative; z-index: 1;">
+            <div style="width: 80px; height: 80px; margin: 0 auto 1.5rem; background: #fff; border: 2px solid #E8E6E3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1A1A1A; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.3s ease;" onmouseover="this.style.borderColor='#6C63FF'; this.style.color='#6C63FF'" onmouseout="this.style.borderColor='#E8E6E3'; this.style.color='#1A1A1A'">
+              1
+            </div>
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: #1A1A1A; margin-bottom: 0.5rem;">Setup</h3>
+            <p style="font-size: 0.85rem; color: #6B6B6B; line-height: 1.6; max-width: 180px; margin: 0 auto;">Upload JD or pick a role & difficulty.</p>
+          </div>
+          
+          <!-- Step 2 -->
+          <div style="flex: 1; min-width: 150px; text-align: center; position: relative; z-index: 1;">
+            <div style="width: 80px; height: 80px; margin: 0 auto 1.5rem; background: #fff; border: 2px solid #E8E6E3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1A1A1A; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.3s ease;" onmouseover="this.style.borderColor='#10B981'; this.style.color='#10B981'" onmouseout="this.style.borderColor='#E8E6E3'; this.style.color='#1A1A1A'">
+              2
+            </div>
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: #1A1A1A; margin-bottom: 0.5rem;">Speak</h3>
+            <p style="font-size: 0.85rem; color: #6B6B6B; line-height: 1.6; max-width: 180px; margin: 0 auto;">Answer out loud using your microphone.</p>
+          </div>
+          
+          <!-- Step 3 -->
+          <div style="flex: 1; min-width: 150px; text-align: center; position: relative; z-index: 1;">
+            <div style="width: 80px; height: 80px; margin: 0 auto 1.5rem; background: #fff; border: 2px solid #E8E6E3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1A1A1A; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.3s ease;" onmouseover="this.style.borderColor='#F59E0B'; this.style.color='#F59E0B'" onmouseout="this.style.borderColor='#E8E6E3'; this.style.color='#1A1A1A'">
+              3
+            </div>
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: #1A1A1A; margin-bottom: 0.5rem;">Adapt</h3>
+            <p style="font-size: 0.85rem; color: #6B6B6B; line-height: 1.6; max-width: 180px; margin: 0 auto;">Questions scale based on real-time accuracy.</p>
+          </div>
+          
+          <!-- Step 4 -->
+          <div style="flex: 1; min-width: 150px; text-align: center; position: relative; z-index: 1;">
+            <div style="width: 80px; height: 80px; margin: 0 auto 1.5rem; background: #fff; border: 2px solid #E8E6E3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1A1A1A; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.3s ease;" onmouseover="this.style.borderColor='#3B82F6'; this.style.color='#3B82F6'" onmouseout="this.style.borderColor='#E8E6E3'; this.style.color='#1A1A1A'">
+              4
+            </div>
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: #1A1A1A; margin-bottom: 0.5rem;">Evaluate</h3>
+            <p style="font-size: 0.85rem; color: #6B6B6B; line-height: 1.6; max-width: 180px; margin: 0 auto;">Instant feedback on keywords & tone.</p>
+          </div>
+          
+          <!-- Step 5 -->
+          <div style="flex: 1; min-width: 150px; text-align: center; position: relative; z-index: 1;">
+            <div style="width: 80px; height: 80px; margin: 0 auto 1.5rem; background: #fff; border: 2px solid #E8E6E3; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #1A1A1A; box-shadow: 0 4px 12px rgba(0,0,0,0.05); transition: all 0.3s ease;" onmouseover="this.style.borderColor='#8B5CF6'; this.style.color='#8B5CF6'" onmouseout="this.style.borderColor='#E8E6E3'; this.style.color='#1A1A1A'">
+              5
+            </div>
+            <h3 style="font-size: 1.05rem; font-weight: 700; color: #1A1A1A; margin-bottom: 0.5rem;">Review</h3>
+            <p style="font-size: 0.85rem; color: #6B6B6B; line-height: 1.6; max-width: 180px; margin: 0 auto;">Full dashboard pinpointing weak spots.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Adaptive Engine Section -->
+    <section style="padding: 100px 24px; max-width: 1100px; margin: 0 auto;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 4rem; align-items: center;">
+        <div>
+          <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: #6C63FF;">Core Technology</span>
+          <h2 style="font-size: clamp(2rem, 3.5vw, 2.5rem); font-weight: 800; letter-spacing: -0.025em; color: #1A1A1A; margin: 0.5rem 0 1.25rem;">
+            Dynamic Difficulty Adjustments
+          </h2>
+          <p style="font-size: 1.05rem; color: #6B6B6B; line-height: 1.7; margin-bottom: 2rem;">
+            Just like a real interviewer, our engine listens to your responses. If you nail a foundational concept, the next question dives deeper. If you struggle, the system adapts to test related fundamentals before moving on.
+          </p>
+          <ul style="list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 1rem;">
+            <li style="display: flex; align-items: flex-start; gap: 0.75rem;">
+              <div style="width: 24px; height: 24px; border-radius: 50%; background: #ECFDF5; color: #10B981; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem;">✓</div>
+              <span style="color: #1A1A1A; font-weight: 500; font-size: 0.95rem;">Real-time speech analysis</span>
+            </li>
+            <li style="display: flex; align-items: flex-start; gap: 0.75rem;">
+              <div style="width: 24px; height: 24px; border-radius: 50%; background: #ECFDF5; color: #10B981; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem;">✓</div>
+              <span style="color: #1A1A1A; font-weight: 500; font-size: 0.95rem;">Multi-topic bridging logic</span>
+            </li>
+            <li style="display: flex; align-items: flex-start; gap: 0.75rem;">
+              <div style="width: 24px; height: 24px; border-radius: 50%; background: #ECFDF5; color: #10B981; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 0.1rem;">✓</div>
+              <span style="color: #1A1A1A; font-weight: 500; font-size: 0.95rem;">Simulated conversational follow-ups</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Illustration Visual -->
+        <div style="background: #FAFAFA; border: 1px solid #E8E6E3; border-radius: 24px; padding: 2rem; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.04);">
+          <!-- Top Node -->
+          <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 12px; padding: 1rem; text-align: center; margin-bottom: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02); position: relative; z-index: 2;">
+            <p style="font-size: 0.75rem; color: #6B6B6B; font-weight: 600; text-transform: uppercase;">Medium Priority</p>
+            <p style="font-size: 0.9rem; font-weight: 700; color: #1A1A1A; margin: 0;">Explain REST API constraints.</p>
+          </div>
+          
+          <!-- Connections -->
+          <div style="position: absolute; top: 110px; left: 50%; width: 2px; height: 30px; background: #CBD5E1; transform: translateX(-50%); z-index: 1;"></div>
+          <div style="position: absolute; top: 140px; left: 25%; right: 25%; height: 2px; background: #CBD5E1; z-index: 1;"></div>
+          <div style="position: absolute; top: 140px; left: 25%; width: 2px; height: 30px; background: #CBD5E1; z-index: 1;"></div>
+          <div style="position: absolute; top: 140px; right: 25%; width: 2px; height: 30px; background: #CBD5E1; z-index: 1;"></div>
+          
+          <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+            <!-- Left Branch (Strong) -->
+            <div style="flex: 1; background: #fff; border: 1px solid #10B981; border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 4px 12px rgba(16,185,129,0.08); position: relative; z-index: 2;">
+              <span style="display: inline-block; background: #ECFDF5; color: #059669; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem;">Strong Answer</span>
+              <p style="font-size: 0.85rem; font-weight: 600; color: #1A1A1A; margin: 0;">Scale Up: "How does GraphQL solve REST's over-fetching?"</p>
+            </div>
+            
+            <!-- Right Branch (Weak) -->
+            <div style="flex: 1; background: #fff; border: 1px solid #F59E0B; border-radius: 12px; padding: 1rem; text-align: center; box-shadow: 0 4px 12px rgba(245,158,11,0.08); position: relative; z-index: 2;">
+              <span style="display: inline-block; background: #FFFBEB; color: #D97706; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 999px; margin-bottom: 0.5rem;">Weak Answer</span>
+              <p style="font-size: 0.85rem; font-weight: 600; color: #1A1A1A; margin: 0;">Scale Down: "What is CRUD, and how does it map to HTTP?"</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Analytics & Preview Section -->
+    <section style="padding: 100px 24px; background: #FAFAFA; border-top: 1px solid #E8E6E3;">
+      <div style="max-width: 1100px; margin: 0 auto;">
+        <div style="text-align: center; margin-bottom: 4rem;">
+          <h2 style="font-size: clamp(2rem, 3.5vw, 2.5rem); font-weight: 800; letter-spacing: -0.025em; color: #1A1A1A; margin: 0 0 1rem;">Actionable Insights</h2>
+          <p style="font-size: 1.1rem; color: #6B6B6B; max-width: 600px; margin: 0 auto;">Don't just answer questions. Master them. Our dashboard breaks down exactly where you excel and where you need work.</p>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 2rem;">
+          <!-- Topic Perf Preview -->
+          <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 20px; padding: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,0.03);">
+            <h3 style="font-size: 1rem; font-weight: 700; color: #1A1A1A; margin: 0 0 1.5rem;">Topic Mastery</h3>
+            
+            <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: #1A1A1A;">Data Structures</span>
+                  <span style="font-size: 0.85rem; font-weight: 700; color: #10B981;">92%</span>
+                </div>
+                <div style="height: 8px; background: #F0F0F0; border-radius: 999px; overflow: hidden;">
+                  <div style="height: 100%; width: 92%; background: #10B981; border-radius: 999px;"></div>
+                </div>
+              </div>
+              
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: #1A1A1A;">System Design</span>
+                  <span style="font-size: 0.85rem; font-weight: 700; color: #F59E0B;">65%</span>
+                </div>
+                <div style="height: 8px; background: #F0F0F0; border-radius: 999px; overflow: hidden;">
+                  <div style="height: 100%; width: 65%; background: #F59E0B; border-radius: 999px;"></div>
+                </div>
+              </div>
+              
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: #1A1A1A;">React Internals</span>
+                  <span style="font-size: 0.85rem; font-weight: 700; color: #6C63FF;">88%</span>
+                </div>
+                <div style="height: 8px; background: #F0F0F0; border-radius: 999px; overflow: hidden;">
+                  <div style="height: 100%; width: 88%; background: #6C63FF; border-radius: 999px;"></div>
+                </div>
+              </div>
+              
+              <div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.85rem; font-weight: 600; color: #1A1A1A;">CSS Grid/Flexbox</span>
+                  <span style="font-size: 0.85rem; font-weight: 700; color: #EF4444;">45%</span>
+                </div>
+                <div style="height: 8px; background: #F0F0F0; border-radius: 999px; overflow: hidden;">
+                  <div style="height: 100%; width: 45%; background: #EF4444; border-radius: 999px;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Voice Pulse Preview -->
+          <div style="background: #1A1A1A; border-radius: 20px; padding: 2rem; position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; color: #fff;">
+            <!-- Subtle Grid Background -->
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 20px 20px; opacity: 0.5;"></div>
+            
+            <div style="position: relative; z-index: 1;">
+              <div style="position: relative; display: inline-block; margin-bottom: 1.5rem;">
+                <!-- Animated Rings -->
+                <div style="position: absolute; border-radius: 50%; background: rgba(239,68,68,0.2); width: 120px; height: 120px; top: -20px; left: -20px; animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></div>
+                <div style="position: absolute; border-radius: 50%; background: rgba(239,68,68,0.1); width: 160px; height: 160px; top: -40px; left: -40px; animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite 1s;"></div>
+                
+                <!-- Mic Button -->
+                <div style="width: 80px; height: 80px; background: #EF4444; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 0 20px rgba(239,68,68,0.5);">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                    <line x1="12" y1="19" x2="12" y2="23"></line>
+                  </svg>
+                </div>
+              </div>
+              <h3 style="font-size: 1.25rem; font-weight: 700; margin: 0 0 0.5rem;">Voice-First Validation</h3>
+              <p style="font-size: 0.95rem; color: #A1A1AA; line-height: 1.6; max-width: 280px; margin: 0 auto;">Practice speaking your thoughts out loud. Our advanced engine evaluates both content and clarity.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA & Footer -->
+    <section id="pricing" style="padding: 100px 24px; text-align: center; max-width: 700px; margin: 0 auto;">
+      <div
+        style="background: linear-gradient(135deg, #1A1A1A 0%, #2F2F2F 100%); border-radius: 28px; padding: 4rem 3rem;">
+        <h2 style="font-size: clamp(2rem, 4vw, 2.75rem); font-weight: 800; color: #fff; margin-bottom: 1.25rem;">Start
+          Practicing Today</h2>
+        <button class="btn-accent" style="font-size: 1rem; padding: 0.85rem 2.5rem;" onclick="navigateTo('setup')">Start
+          Free Interview</button>
+      </div>
+    </section>
+
+    <footer style="border-top: 1px solid #E8E6E3; padding: 3rem 24px; background: #fff;">
+      <p style="font-size: 0.78rem; color: #6B6B6B; margin: 0; text-align: center;">© 2025 Adaptive Interview Simulator
+      </p>
+    </footer>
+  </div>
+  <!-- END LANDING PAGE -->
+
+  <!-- ========================= -->
+  <!--       LOGIN PAGE          -->
+  <!-- ========================= -->
+  <div id="page-login" class="page"
+    style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;">
+
+    <div style="position:absolute;top:24px;left:24px;">
+      <a href="#" onclick="navigateTo('home'); return false;" style="display:flex;align-items:center;gap:0.4rem;color:#6B6B6B;
+        text-decoration:none;font-size:0.85rem;font-weight:500;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2">
+          <polyline points="19 12 5 12"></polyline>
+          <polyline points="10 17 5 12 10 7"></polyline>
+        </svg>
+        Back to Home
+      </a>
+    </div>
+
+    <div style="width:100%;max-width:420px;">
+      <div style="text-align:center;margin-bottom:2rem;">
+        <div style="width:48px;height:48px;border-radius:14px;
+          background:linear-gradient(135deg,#6C63FF,#A78BFA);
+          display:flex;align-items:center;justify-content:center;
+          color:#fff;font-size:1rem;font-weight:900;margin:0 auto 0.75rem;">AI</div>
+        <h1 style="font-size:1.6rem;font-weight:800;color:#1A1A1A;
+          letter-spacing:-0.02em;margin:0;">Welcome</h1>
+        <p style="color:#6B6B6B;font-size:0.9rem;margin-top:0.4rem;">
+          Sign in to start your interview session</p>
+      </div>
+
+      <div style="background:#fff;border:1px solid #E8E6E3;border-radius:20px;
+        padding:2rem;box-shadow:0 8px 32px rgba(0,0,0,0.06);">
+
+        <!-- Google Sign-In Button -->
+        <button id="google-signin-btn"
+          style="width:100%;display:flex;align-items:center;justify-content:center;
+          gap:0.75rem;padding:0.85rem;border:1.5px solid #E8E6E3;border-radius:10px;
+          background:#fff;cursor:pointer;font-size:0.95rem;font-weight:600;
+          color:#1A1A1A;transition:all 0.2s;font-family:Inter,sans-serif;"
+          onmouseover="this.style.borderColor='#6C63FF';this.style.background='#F0EFFE'"
+          onmouseout="this.style.borderColor='#E8E6E3';this.style.background='#fff'">
+          <!-- Google SVG logo -->
+          <svg width="20" height="20" viewBox="0 0 48 48">
+            <path fill="#FFC107" d="M43.6 20H24v8h11.3C33.6 33.1 29.3 36 24 36
+              c-6.6 0-12-5.4-12-12s5.4-12 12-12c3 0 5.8 1.1 7.9 3l5.7-5.7
+              C34.1 6.5 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20
+              c11 0 20-8 20-20 0-1.3-.1-2.7-.4-4z"/>
+            <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 15.1 18.9 12 24 12
+              c3 0 5.8 1.1 7.9 3l5.7-5.7C34.1 6.5 29.3 4 24 4
+              10.6 4 5 9.3 6.3 14.7z"/>
+            <path fill="#4CAF50" d="M24 44c5.2 0 9.9-1.9 13.5-5L31
+              33.6C29.1 35 26.7 36 24 36c-5.2 0-9.6-2.9-11.3-7.1l-6.6 5.1
+              C9.7 40.1 16.4 44 24 44z"/>
+            <path fill="#1976D2" d="M43.6 20H24v8h11.3c-.8 2.3-2.4 4.2-4.4 5.5
+              l6.5 5C41 35 44 30 44 24c0-1.3-.1-2.7-.4-4z"/>
+          </svg>
+          Continue with Google
+        </button>
+
+        <!-- Error message -->
+        <p id="login-error"
+          style="display:none;text-align:center;color:#EF4444;
+          font-size:0.82rem;margin-top:1rem;"></p>
+
+        <!-- Loading state -->
+        <p id="login-loading"
+          style="display:none;text-align:center;color:#6B6B6B;
+          font-size:0.82rem;margin-top:1rem;">Signing in...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================= -->
+  <!--       SETUP PAGE          -->
+  <!-- ========================= -->
+  <div id="page-setup" class="page" style="min-height: 100vh; padding: 24px;">
+    <header
+      style="max-width: 700px; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: space-between;">
+      <a href="#" onclick="navigateTo('home'); return false;" style="display: flex; align-items: center; gap: 0.4rem; text-decoration: none;">
+        <span
+          style="width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #6C63FF, #A78BFA); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 0.65rem; font-weight: 900;">AI</span>
+        <span style="font-weight: 800; color: #1A1A1A; font-size: 0.95rem; letter-spacing: -0.02em;">Adaptive
+          Interview</span>
+      </a>
+      <div style="display:flex;align-items:center;gap:0.75rem;">
+        <img id="user-avatar" src="" alt="avatar"
+          style="width:32px;height:32px;border-radius:50%;
+          border:2px solid #E8E6E3;display:none;" />
+        <span id="user-name"
+          style="font-size:0.82rem;font-weight:600;color:#1A1A1A;"></span>
+        <button id="signout-btn" class="nav-link"
+          style="padding:0;color:#EF4444;cursor:pointer;
+          background:none;border:none;font-size:0.85rem;font-weight:500;">
+          Sign out
+        </button>
+      </div>
+    </header>
+
+    <div style="max-width: 700px; margin: 0 auto;">
+      <div style="margin-bottom: 2rem;">
+        <h1 style="font-size: 2rem; font-weight: 800; color: #1A1A1A; letter-spacing: -0.025em; margin: 0 0 0.4rem;">
+          Interview Setup</h1>
+        <p style="color: #6B6B6B; font-size: 0.95rem; margin: 0;">Configure your session before we begin.</p>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+        <!-- Upload JD -->
+        <div style="background:#fff;border:1px solid #E8E6E3;border-radius:16px;padding:1.5rem;">
+          <label style="font-size:0.88rem;font-weight:700;color:#1A1A1A;
+            display:block;margin-bottom:0.75rem;">
+            Job Description
+            <span style="font-weight:400;color:#6B6B6B;">(optional — paste to auto-detect topics)</span>
+          </label>
+          <textarea id="jd-textarea"
+            placeholder="Paste the job description here..."
+            rows="4" class="input-base" style="resize:vertical;"></textarea>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;
+            margin-top:0.75rem;flex-wrap:wrap;gap:0.5rem;">
+            <button id="analyze-jd-btn" class="btn-secondary"
+              style="font-size:0.8rem;padding:0.45rem 1.1rem;">
+              🔍 Analyze JD
+            </button>
+            <button id="clear-jd-btn" class="btn-secondary"
+              style="font-size:0.8rem;padding:0.45rem 1.1rem;display:none;">
+              ✕ Clear
+            </button>
+          </div>
+
+          <!-- Detection result message -->
+          <div id="jd-result" style="display:none;margin-top:0.75rem;
+            background:#F0EFFE;border:1px solid #D1CBFF;border-radius:10px;
+            padding:0.65rem 0.9rem;">
+            <p id="jd-result-text"
+              style="font-size:0.82rem;color:#6C63FF;font-weight:600;margin:0;"></p>
+          </div>
+
+          <!-- No match warning -->
+          <div id="jd-no-match" style="display:none;margin-top:0.75rem;
+            background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px;
+            padding:0.65rem 0.9rem;">
+            <p style="font-size:0.82rem;color:#D97706;font-weight:600;margin:0;">
+              ⚠️ No topics detected. Please select topics manually below.
+            </p>
+          </div>
+        </div>
+
+        <!-- Domain -->
+        <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 16px; padding: 1.5rem;">
+          <label
+            style="font-size: 0.88rem; font-weight: 700; color: #1A1A1A; display: block; margin-bottom: 0.75rem;">Interview
+            Domain</label>
+          <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.6rem;">
+            <button class="domain-btn">Data Structures</button>
+            <button class="domain-btn">System Design</button>
+            <button class="domain-btn">Web Development</button>
+            <button class="domain-btn">Machine Learning</button>
+            <button class="domain-btn">Databases</button>
+            <button class="domain-btn">OS Concepts</button>
+          </div>
+        </div>
+
+        <!-- Level -->
+        <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 16px; padding: 1.5rem;">
+          <label
+            style="font-size: 0.88rem; font-weight: 700; color: #1A1A1A; display: block; margin-bottom: 0.75rem;">Difficulty
+            Level</label>
+          <div style="display: flex; gap: 0.6rem;">
+            <button class="level-btn">Beginner</button>
+            <button class="level-btn selected">Intermediate</button>
+            <button class="level-btn">Advanced</button>
+          </div>
+        </div>
+
+        <button id="start-interview-btn" disabled class="btn-accent"
+          style="width: 100%; justify-content: center; border-radius: 12px; padding: 0.9rem; opacity: 1;"
+          onclick="navigateTo('interview')">
+          Start Interview
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="5 3 19 12 5 21 5 3" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================= -->
+  <!--     INTERVIEW PAGE        -->
+  <!-- ========================= -->
+  <div id="page-interview" class="page" style="min-height: 100vh; display: flex; flex-direction: column;">
+    <!-- Top bar -->
+    <header style="background: #fff; border-bottom: 1px solid #E8E6E3; padding: 1rem 24px;">
+      <div
+        style="max-width: 900px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 0.4rem;">
+          <span
+            style="width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #6C63FF, #A78BFA); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 0.65rem; font-weight: 900;">AI</span>
+          <span style="font-weight: 800; color: #1A1A1A; font-size: 0.95rem; letter-spacing: -0.02em;">Interview
+            Session</span>
+        </div>
+        <!-- Progress -->
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <span style="font-size: 0.8rem; color: #6B6B6B; font-weight: 500;">Question 7 of 14</span>
+          <div style="width: 120px; height: 6px; background: #F0F0F0; border-radius: 999px;">
+            <div style="width: 50%; height: 100%; background: #6C63FF; border-radius: 999px;"></div>
+          </div>
+        </div>
+        <button class="btn-secondary"
+          style="font-size: 0.78rem; padding: 0.4rem 1rem; color: #EF4444; border-color: #FCA5A5;"
+          onclick="navigateTo('summary')">End Interview</button>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <div
+      style="flex: 1; max-width: 900px; margin: 2rem auto; padding: 0 24px; width: 100%; display: flex; flex-direction: column; gap: 1.25rem;">
+      <!-- Question card -->
+      <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 20px; padding: 2rem;">
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+          <span
+            style="background: #F0EFFE; color: #6C63FF; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 999px; border: 1px solid #D1CBFF;">Data
+            Structures</span>
+          <span
+            style="background: #FFFBEB; color: #F59E0B; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.65rem; border-radius: 999px; border: 1px solid #FDE68A;">Medium</span>
+        </div>
+        <p style="font-size: 1.1rem; font-weight: 600; color: #1A1A1A; line-height: 1.7; margin: 0;">Explain the
+          difference between a stack and a queue. Describe their underlying data structures, key operations, and provide
+          real-world use cases for each.</p>
+      </div>
+
+      <!-- Voice area -->
+      <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 20px; padding: 2rem; text-align: center;">
+        <p id="recording-status" style="font-size: 0.82rem; color: #6B6B6B; font-weight: 500; margin-bottom: 1.5rem;">
+          Press the microphone to start answering
+        </p>
+
+        <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
+          <div style="position: relative;">
+            <div id="recording-pulses" class="hidden">
+              <div class="pulse-ring"
+                style="position: absolute; width: 90px; height: 90px; border-radius: 50%; background: rgba(239,68,68,0.15); top: -9px; left: -9px;">
+              </div>
+            </div>
+            <button id="mic-btn" class="mic-btn">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                <line x1="12" y1="19" x2="12" y2="23"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Transcript -->
+        <div id="transcript-box" class="hidden"
+          style="background: #F7F5F3; border: 1px solid #E8E6E3; border-radius: 12px; padding: 1rem; text-align: left; margin-bottom: 1.25rem;">
+          <p
+            style="font-size: 0.7rem; font-weight: 700; color: #6B6B6B; text-transform: uppercase; letter-spacing: 0.06em; margin: 0 0 0.4rem;">
+            Transcript</p>
+          <p id="transcript-text" style="font-size: 0.88rem; color: #1A1A1A; line-height: 1.7; margin: 0;"></p>
+        </div>
+
+        <div style="display: flex; gap: 0.6rem; justify-content: center; flex-wrap: wrap;">
+          <button id="skip-btn" class="btn-secondary" style="font-size: 0.8rem; color: #6B6B6B;">Skip Question</button>
+          <button id="submit-answer-btn" disabled class="btn-accent"
+            style="font-size: 0.8rem; padding: 0.55rem 1.25rem;" onclick="navigateTo('feedback')">Submit Answer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================= -->
+  <!--     FEEDBACK PAGE         -->
+  <!-- ========================= -->
+  <div id="page-feedback" class="page" style="min-height: 100vh; padding: 24px;">
+    <header
+      style="max-width: 780px; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: space-between;">
+      <div style="display: flex; align-items: center; gap: 0.4rem;">
+        <span
+          style="width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #6C63FF, #A78BFA); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 0.65rem; font-weight: 900;">AI</span>
+        <span style="font-weight: 800; color: #1A1A1A; font-size: 0.95rem; letter-spacing: -0.02em;">Feedback</span>
+      </div>
+      <span style="font-size: 0.78rem; color: #6B6B6B;">Question 7 · Data Structures</span>
+    </header>
+
+    <div style="max-width: 780px; margin: 0 auto; display: flex; flex-direction: column; gap: 1rem;">
+      <!-- Score card -->
+      <div
+        style="background: #fff; border: 1px solid #E8E6E3; border-radius: 20px; padding: 2rem; display: flex; align-items: center; gap: 2rem; flex-wrap: wrap;">
+        <div
+          style="width: 96px; height: 96px; border-radius: 50%; background: conic-gradient(#6C63FF 266.4deg, #F0F0F0 266.4deg); display: flex; align-items: center; justify-content: center; flex-shrink: 0; position: relative;">
+          <div
+            style="width: 72px; height: 72px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+            <span style="font-size: 1.4rem; font-weight: 900; color: #6C63FF; line-height: 1;">74</span>
+            <span style="font-size: 0.6rem; color: #6B6B6B; font-weight: 600;">/ 100</span>
+          </div>
+        </div>
+        <div>
+          <p
+            style="font-size: 0.78rem; font-weight: 700; color: #6B6B6B; text-transform: uppercase; letter-spacing: 0.08em; margin: 0 0 0.3rem;">
+            Answer Score</p>
+          <p style="font-size: 1.5rem; font-weight: 800; color: #1A1A1A; margin: 0 0 0.4rem; letter-spacing: -0.02em;">
+            Good effort! Room to improve.</p>
+          <p style="font-size: 0.85rem; color: #6B6B6B; margin: 0; line-height: 1.6; max-width: 480px;">
+            You covered the core concepts well. Consider diving deeper into time complexity analysis and specific
+            dequeue operations.
+          </p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 16px; padding: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: #10B981;"></div>
+            <p style="font-weight: 700; color: #1A1A1A; margin: 0; font-size: 0.88rem;">Keywords Detected</p>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+            <span
+              style="background: #ECFDF5; color: #059669; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 999px; border: 1px solid #A7F3D0;">LIFO</span>
+            <span
+              style="background: #ECFDF5; color: #059669; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 999px; border: 1px solid #A7F3D0;">FIFO</span>
+            <span
+              style="background: #ECFDF5; color: #059669; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 999px; border: 1px solid #A7F3D0;">stack</span>
+          </div>
+        </div>
+
+        <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 16px; padding: 1.5rem;">
+          <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+            <div style="width: 8px; height: 8px; border-radius: 50%; background: #F59E0B;"></div>
+            <p style="font-weight: 700; color: #1A1A1A; margin: 0; font-size: 0.88rem;">Missing Concepts</p>
+          </div>
+          <div style="display: flex; flex-wrap: wrap; gap: 0.4rem;">
+            <span
+              style="background: #FFFBEB; color: #D97706; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 999px; border: 1px solid #FDE68A;">time
+              complexity</span>
+            <span
+              style="background: #FFFBEB; color: #D97706; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.65rem; border-radius: 999px; border: 1px solid #FDE68A;">memory
+              considerations</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 16px; padding: 1.5rem;">
+        <p style="font-weight: 700; color: #1A1A1A; margin: 0 0 0.75rem; font-size: 0.88rem;">Detailed Feedback</p>
+        <p style="color: #6B6B6B; line-height: 1.8; font-size: 0.88rem; margin: 0;">
+          Your answer demonstrated a clear understanding of LIFO and FIFO principles. You correctly identified stack and
+          queue behaviors and provided relevant examples. To score higher, include the time complexity of operations
+          (O(1) for push/pop and enqueue/dequeue) and discuss memory implications for linked-list vs array-based
+          implementations.
+        </p>
+      </div>
+
+      <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+        <button class="btn-accent" style="flex: 1; justify-content: center; border-radius: 12px; padding: 0.8rem;"
+          onclick="navigateTo('interview')">Next Question</button>
+        <button class="btn-secondary"
+          style="flex: 1; justify-content: center; border-radius: 12px; padding: 0.8rem; color: #EF4444; border-color: #FCA5A5;"
+          onclick="navigateTo('summary')">End Session</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================= -->
+  <!--     SUMMARY PAGE          -->
+  <!-- ========================= -->
+  <div id="page-summary" class="page" style="min-height: 100vh; background: #FAFAFA;">
+    <!-- Top Header Navigation -->
+    <header style="background: #fff; border-bottom: 1px solid #E8E6E3; padding: 1rem 24px; display: flex; align-items: center;">
+      <a href="#" onclick="navigateTo('home'); return false;" style="display: flex; align-items: center; gap: 0.4rem; text-decoration: none;">
+        <span style="width: 28px; height: 28px; border-radius: 8px; background: linear-gradient(135deg, #6C63FF, #A78BFA); display: inline-flex; align-items: center; justify-content: center; color: #fff; font-size: 0.65rem; font-weight: 900;">AI</span>
+        <span style="font-weight: 800; color: #1A1A1A; font-size: 0.95rem; letter-spacing: -0.02em;">Adaptive Interview</span>
+      </a>
+    </header>
+
+    <div style="max-width: 1000px; margin: 0 auto; padding: 40px 24px;">
+      <!-- Header Area -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; flex-wrap: wrap; gap: 1.5rem;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.5rem;">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #6C63FF;"></span>
+            <p style="font-size: 0.75rem; color: #6B6B6B; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; margin: 0;">Session Complete</p>
+          </div>
+          <h1 style="font-size: 2.8rem; font-weight: 600; color: #1A1A1A; margin: 0 0 0.75rem; letter-spacing: -0.02em;">Interview Summary</h1>
+          <p style="color: #6B6B6B; font-size: 0.95rem; line-height: 1.6; max-width: 400px; margin: 0;">Here's how you performed in this session. Review your results and focus on areas to improve.</p>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <button id="summary-restart-btn" style="display: flex; align-items: center; gap: 0.5rem; background: #fff; border: 1px solid #E8E6E3; border-radius: 999px; padding: 0.6rem 1.2rem; font-size: 0.85rem; font-weight: 600; color: #1A1A1A; cursor: pointer; transition: all 0.2s;" onclick="restartInterview()" onmouseover="this.style.background='#F7F5F3'" onmouseout="this.style.background='#fff'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="color: #6B6B6B;">
+              <path d="M21 2v6h-6"></path>
+              <path d="M3 12a9 9 0 1 0 2.6-6.4L21 8"></path>
+            </svg>
+            Restart Interview
+          </button>
+          
+          <button style="display: flex; align-items: center; gap: 0.5rem; background: #1A1A1A; border: 1px solid #1A1A1A; border-radius: 999px; padding: 0.6rem 1.2rem; font-size: 0.85rem; font-weight: 600; color: #fff; cursor: pointer; transition: all 0.2s;" onclick="downloadReport()" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            Download Report
+          </button>
+        </div>
+      </div>
+
+      <!-- Stat Cards Row -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.25rem; margin-bottom: 1.5rem;">
+        <!-- Total Score -->
+        <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #F3F0FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#8B5CF6" stroke-width="2">
+              <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+              <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+              <path d="M4 22h16"></path>
+              <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+              <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+              <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
+            </svg>
+          </div>
+          <div>
+            <p style="font-size: 0.75rem; color: #6B6B6B; font-weight: 600; margin: 0 0 0.25rem;">Total Score</p>
+            <p id="summary-total-score" style="font-size: 1.5rem; font-weight: 700; color: #6C63FF; margin: 0;">0 / 100</p>
+          </div>
+        </div>
+        
+        <!-- Questions Attempted -->
+        <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #EFF6FF; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="9" y1="15" x2="15" y2="15"></line>
+              <line x1="9" y1="11" x2="11" y2="11"></line>
+            </svg>
+          </div>
+          <div>
+            <p style="font-size: 0.75rem; color: #6B6B6B; font-weight: 600; margin: 0 0 0.25rem;">Questions Attempted</p>
+            <p id="summary-questions" style="font-size: 1.5rem; font-weight: 700; color: #3B82F6; margin: 0;">0</p>
+          </div>
+        </div>
+
+        <!-- Correct Answers -->
+        <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #ECFDF5; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+              <polyline points="22 4 12 14.01 9 11.01"></polyline>
+            </svg>
+          </div>
+          <div>
+            <p style="font-size: 0.75rem; color: #6B6B6B; font-weight: 600; margin: 0 0 0.25rem;">Correct Answers</p>
+            <p id="summary-correct" style="font-size: 1.5rem; font-weight: 700; color: #10B981; margin: 0;">0</p>
+          </div>
+        </div>
+
+        <!-- Session Duration -->
+        <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 12px; padding: 1.25rem; display: flex; align-items: center; gap: 1.25rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: #FFFBEB; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div>
+            <p style="font-size: 0.75rem; color: #6B6B6B; font-weight: 600; margin: 0 0 0.25rem;">Session Duration</p>
+            <p id="summary-duration" style="font-size: 1.5rem; font-weight: 700; color: #F59E0B; margin: 0;">0m 0s</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Content Layout -->
+      <div style="display: grid; grid-template-columns: 1.6fr 1fr; gap: 1.25rem;">
+        
+        <!-- Topic Performance (Left Wide) -->
+        <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 16px; padding: 2rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+          <h3 style="font-size: 1.05rem; font-weight: 700; color: #1A1A1A; margin: 0 0 2rem;">Topic-Wise Performance</h3>
+          
+          <div id="summary-topics-container" style="display: flex; flex-direction: column; gap: 1rem;">
+            <!-- Rendered topics go here -->
+          </div>
+          
+          <!-- Empty State (Shown when no topics) -->
+          <div id="summary-topics-empty" style="text-align: center; padding: 2rem 0;">
+            <div style="position: relative; display: inline-flex; align-items: center; justify-content: center; width: 120px; height: 120px; border-radius: 50%; background: #F0EFFE; margin-bottom: 1.25rem;">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#A78BFA" stroke-width="2">
+                <line x1="18" y1="20" x2="18" y2="10"></line>
+                <line x1="12" y1="20" x2="12" y2="4"></line>
+                <line x1="6" y1="20" x2="6" y2="14"></line>
+              </svg>
+              <!-- Small decorative stars -->
+              <span style="position: absolute; top: 10px; left: -10px; color: #D1CBFF;">✦</span>
+              <span style="position: absolute; bottom: 20px; right: -20px; color: #D1CBFF;">✦</span>
+            </div>
+            <p style="font-size: 1rem; font-weight: 700; color: #1A1A1A; margin: 0 0 0.5rem;">No data to display</p>
+            <p style="font-size: 0.85rem; color: #6B6B6B; max-width: 250px; margin: 0 auto; line-height: 1.5;">Complete more sessions to see your topic-wise performance breakdown.</p>
+          </div>
+        </div>
+
+        <!-- Right Column -->
+        <div style="display: flex; flex-direction: column; gap: 1.25rem;">
+          
+          <!-- Weak Topics -->
+          <div style="background: #fff; border: 1px solid #E8E6E3; border-radius: 16px; padding: 1.5rem; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">
+            <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#F59E0B" stroke-width="2">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+              </svg>
+              <h3 style="font-size: 1.05rem; font-weight: 700; color: #1A1A1A; margin: 0;">Weak Topics</h3>
+            </div>
+            
+            <div id="summary-weak-container" style="display: flex; flex-direction: column; gap: 0.6rem;">
+              <!-- Rendered weak topics go here -->
+            </div>
+            
+            <!-- Empty State -->
+            <p id="summary-weak-empty" style="font-size: 0.85rem; font-weight: 700; color: #10B981; margin: 0;">No weak topics! Great performance.</p>
+          </div>
+
+          <!-- Keep Practicing! -->
+          <div style="background: #8B5CF6; border-radius: 16px; padding: 2rem; color: #fff; position: relative; overflow: hidden; flex: 1; display: flex; flex-direction: column; justify-content: center;">
+            <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem;">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <circle cx="12" cy="12" r="6"></circle>
+                <circle cx="12" cy="12" r="2"></circle>
+              </svg>
+            </div>
+            <h3 style="font-size: 1.2rem; font-weight: 700; margin: 0 0 0.5rem;">Keep Practicing!</h3>
+            <p style="font-size: 0.85rem; line-height: 1.6; margin: 0 0 1.5rem; color: rgba(255,255,255,0.9);">Focus on your weak topics to improve your next session score.</p>
+            <button style="background: #fff; color: #8B5CF6; border: none; border-radius: 999px; padding: 0.75rem 1.25rem; font-size: 0.85rem; font-weight: 700; cursor: pointer; align-self: flex-start; display: flex; align-items: center; gap: 0.4rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" onclick="navigateTo('setup')">
+              Start Next Session →
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js?v=2"></script>
+</body>
+
+</html>

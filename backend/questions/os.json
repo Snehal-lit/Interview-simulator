@@ -1,0 +1,122 @@
+[
+  {
+    "id": "OS_001",
+    "topic": "OS",
+    "difficulty": "easy",
+    "question": "What is the key difference between a Process and a Thread?",
+    "keywords": ["execution", "memory", "context switching", "lightweight", "independent"],
+    "model_answer": "A process is an independent program in execution, possessing its own memory space and system resources. A thread, often termed a lightweight process, is a single sequence of instructions executing within a process. Threads belonging to the same process share that process's memory and data, which makes context switching between threads significantly faster than switching between full processes."
+  },
+  {
+    "id": "OS_002",
+    "topic": "OS",
+    "difficulty": "easy",
+    "question": "What is the purpose of CPU Scheduling?",
+    "keywords": ["multiprogramming", "utilization", "ready queue", "throughput", "instructions"],
+    "model_answer": "CPU scheduling is the systematic process by which the operating system determines which task in the ready queue is allocated the processor. Its primary purpose is to maximize CPU utilization by enabling multiprogramming, ensuring the processor is never idle. Effective scheduling improves system throughput, minimizes waiting time, and provides fair distribution of resources among competing application instructions."
+  },
+  {
+    "id": "OS_003",
+    "topic": "OS",
+    "difficulty": "easy",
+    "question": "Define what a Deadlock is in an operating system.",
+    "keywords": ["circular wait", "resources", "blocked", "mutual exclusion", "frozen"],
+    "model_answer": "A deadlock is a specific state in an operating system where a set of processes are permanently blocked because each process is holding related resources and waiting to acquire a resource held by another. Due to this circular wait and mutual exclusion, none of the processes can proceed. The system is essentially frozen from the perspective of those applications until external intervention breaks the lock."
+  },
+  {
+    "id": "OS_004",
+    "topic": "OS",
+    "difficulty": "easy",
+    "question": "What is Virtual Memory and why is it useful?",
+    "keywords": ["physical RAM", "illusion", "secondary storage", "larger", "isolation"],
+    "model_answer": "Virtual memory is a memory management technique that provides applications with the illusion of possessing contiguous, unlimited memory space. Actually, the operating system utilizes a combination of physical RAM and secondary storage to hold active process data. It is highly useful because it allows the execution of programs that are physically larger than available RAM and provides memory isolation between different processes for better security."
+  },
+  {
+    "id": "OS_005",
+    "topic": "OS",
+    "difficulty": "easy",
+    "question": "What is the primary role of a File System?",
+    "keywords": ["organization", "storage", "retrieval", "metadata", "directories"],
+    "model_answer": "A file system provides the organization structure and logic that an operating system uses to control how data is stored, categorized, and managed for retrieval on a disk storage medium. It tracks metadata, manages free space, and establishes a graphical hierarchy using directories and folders. Without a structured file system, information placed in a storage area would be an indistinguishable, unrecoverable block of data."
+  },
+  {
+    "id": "OS_006",
+    "topic": "OS",
+    "difficulty": "medium",
+    "question": "Explain the difference between a Mutex and a Semaphore.",
+    "keywords": ["locking mechanism", "signaling", "binary", "counting", "ownership"],
+    "model_answer": "A Mutex is a locking mechanism used to provide mutual exclusion, ensuring only one thread can access a critical section concurrently. Crucially, a mutex possesses ownership, meaning only the thread that locked the mutex can unlock it. A Semaphore is a signaling mechanism utilizing an integer variable, which can be binary or counting. Semaphores orchestrate synchronization and restrict resource access to a specified limit, and they don't inherently strictly attach to an owner."
+  },
+  {
+    "id": "OS_007",
+    "topic": "OS",
+    "difficulty": "medium",
+    "question": "How do Paging and Segmentation differ in memory management?",
+    "keywords": ["fixed-size", "variable-size", "pages", "logical space", "physical memory"],
+    "model_answer": "Paging and segmentation are both memory management schemes but divide memory distinctly. Paging divides main memory into fixed-size blocks called frames and logical space into same-sized blocks called pages, masking physical memory structure from the user. Segmentation splits the logical space into variable-size divisions termed segments, which directly correspond to logical divisions in user programs, such as functions or arrays. Segmentation mirrors the programmer's view, while paging optimizes physical memory allocation."
+  },
+  {
+    "id": "OS_008",
+    "topic": "OS",
+    "difficulty": "medium",
+    "question": "What is Thrashing in the context of virtual memory?",
+    "keywords": ["page faults", "swapping", "CPU utilization", "disk I/O", "degradation"],
+    "model_answer": "Thrashing is a scenario in virtual memory systems where an excessive amount of processing time is spent swapping pages in and out of the disk rather than executing application instructions. This happens when the active subset of memory pages, or working set, heavily exceeds the available physical memory, leading to continuous and overlapping page faults. As a consequence, disk I/O skyrockets, and CPU utilization sharply collapses, causing severe performance degradation."
+  },
+  {
+    "id": "OS_009",
+    "topic": "OS",
+    "difficulty": "medium",
+    "question": "Compare First-Come First-Served (FCFS) and Round Robin scheduling.",
+    "keywords": ["non-preemptive", "time quantum", "starvation", "cyclic", "fairer"],
+    "model_answer": "FCFS is a non-preemptive scheduling protocol that allocates CPU time strictly based on the order of arrival into the ready queue, which can cause severe convoy effects if long jobs precede short ones. Round Robin is a preemptive algorithm that assigns a fixed time quantum to each incoming process in a cyclic fashion. Round Robin prevents starvation and guarantees fairer access, though an extremely small time quantum may generate excessive context switch overhead."
+  },
+  {
+    "id": "OS_010",
+    "topic": "OS",
+    "difficulty": "medium",
+    "question": "What are the four necessary Coffman conditions for a deadlock to occur?",
+    "keywords": ["mutual exclusion", "hold and wait", "no preemption", "circular wait", "simultaneously"],
+    "model_answer": "For an operating system deadlock to explicitly manifest, four Coffman conditions must hold simultaneously. Mutual exclusion dictates that at least one resource must be held in a non-shareable mode. Hold and wait entails that a process currently holding a resource is waiting to acquire additional resources. No preemption means a resource can solely be released voluntarily by its holder. Finally, a circular wait must exist, where a closed chain of processes each waits for a resource held by the next in the sequence."
+  },
+  {
+    "id": "OS_011",
+    "topic": "OS",
+    "difficulty": "hard",
+    "question": "How does the Banker's Algorithm ensure deadlock avoidance?",
+    "keywords": ["maximum claim", "safe state", "allocation", "matrix", "instances"],
+    "model_answer": "The Banker's Algorithm ensures deadlock avoidance by dynamically simulating resource allocation for requested resources before safely granting them. It requires processes to declare their maximum claim regarding all resource types upfront. Upon every request, it checks whether extending the allocation traps the system or leaves it in a verifiable safe state where all processes can theoretically finish. If the resulting state matrix cannot resolve via available instances, the requesting process is forced to wait."
+  },
+  {
+    "id": "OS_012",
+    "topic": "OS",
+    "difficulty": "hard",
+    "question": "Explain Internal vs External Fragmentation in memory allocation.",
+    "keywords": ["fixed partition", "wasted space", "contiguous", "compaction", "variable partitions"],
+    "model_answer": "Memory fragmentation occurs when managed space fundamentally goes to waste. Internal fragmentation frequently afflicts fixed partition and paging schemes, occurring when a process occupies a partition slightly larger than necessary, creating wasted space entirely inside the designated partition block. External fragmentation strikes systems using dynamic, variable partitions; over time, allocating and freeing processes generate dispersed gaps of available memory that collectively meet a request's contiguous requirement but cannot individually fulfill it, requiring costly compaction."
+  },
+  {
+    "id": "OS_013",
+    "topic": "OS",
+    "difficulty": "hard",
+    "question": "Explain Priority Inversion and a typical solution for it.",
+    "keywords": ["scheduling", "lower priority", "lock", "priority inheritance", "blocked"],
+    "model_answer": "Priority inversion signifies a scheduling flaw where a higher priority task is indirectly preempted by a lower priority task, typically because the lower priority holds an exclusive lock on a resource demanded by the high priority process. If intermediate priority tasks subsequently displace the lower task, the high priority task stalls indefinitely and is blocked. The standard solution is priority inheritance, which temporarily elevates the lock-holding task's priority to match the blocked higher priority task until it releases the resource."
+  },
+  {
+    "id": "OS_014",
+    "topic": "OS",
+    "difficulty": "hard",
+    "question": "Describe the core structure of an Inode in Unix-based file systems.",
+    "keywords": ["metadata", "blocks", "pointers", "permissions", "index node"],
+    "model_answer": "An index node, or inode, is a specialized data structure inside Unix-based file systems representing standardized file or directory metadata. It harbors essential attributes including permissions, ownership, timestamps, and size, completely independent of the file's external filename. Structurally, it orchestrates file locations by tracking pointers directed at the actual physical data blocks; typically utilizing direct pointers for early blocks and employing single, double, and triple indirect pointers to accommodate exceptionally large data extents."
+  },
+  {
+    "id": "OS_015",
+    "topic": "OS",
+    "difficulty": "hard",
+    "question": "How do Page Replacement Algorithms like LRU actually function in practice?",
+    "keywords": ["page fault", "hardware assistance", "reference bits", "overhead", "usage"],
+    "model_answer": "When a page fault necessitates loading a new frame while physical memory runs full, the OS implements a Page Replacement Algorithm to evict an existing resident frame. The Least Recently Used (LRU) algorithm operates fundamentally on the principle that pages idle longest generally prove least needed in the immediate future. Because calculating strict LRU entails immense software tracking overhead for every memory hit, practical implementations leverage heavy hardware assistance, usually utilizing reference bits periodically assessed to mimic chronological usage."
+  }
+]

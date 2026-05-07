@@ -1,0 +1,10 @@
+[
+  {
+    "id": "DBMS_001",
+    "topic": "DBMS",
+    "difficulty": "easy",
+    "question": "What is the difference between a Primary Key and a Foreign Key?",
+    "keywords": ["uniquely", "NULL values", "references", "referential integrity", "consistent"],
+    "model_answer": "A primary key is an attribute or set of attributes that uniquely identifies each record specifically within a table; it cannot endure NULL values. In contrast, a foreign key is an attribute appearing in one table that references the primary key located in another table. The foreign key is fundamentally utilized to link related tables and maintain referential integrity, ensuring data remains historically consistent across the database."
+  }
+]
