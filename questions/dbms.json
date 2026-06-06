@@ -6,5 +6,117 @@
     "question": "What is the difference between a Primary Key and a Foreign Key?",
     "keywords": ["uniquely", "NULL values", "references", "referential integrity", "consistent"],
     "model_answer": "A primary key is an attribute or set of attributes that uniquely identifies each record specifically within a table; it cannot endure NULL values. In contrast, a foreign key is an attribute appearing in one table that references the primary key located in another table. The foreign key is fundamentally utilized to link related tables and maintain referential integrity, ensuring data remains historically consistent across the database."
+  },
+  {
+    "id": "DBMS_002",
+    "topic": "DBMS",
+    "difficulty": "easy",
+    "question": "What are the ACID properties?",
+    "keywords": ["Atomicity", "Consistency", "Isolation", "Durability", "completing"],
+    "model_answer": "ACID constraints verify that database transactions are executed reliably. Atomicity ensures a transaction operates as a single undivided unit, either successfully completing entirely or failing totally. Consistency asserts that data complies with all defined validation rules before and after transactions. Isolation guarantees concurrent transactions execute seamlessly without interfering with one another. Finally, Durability ensures that upon completion, a transaction's committed modifications endure even amid system failures."
+  },
+  {
+    "id": "DBMS_003",
+    "topic": "DBMS",
+    "difficulty": "easy",
+    "question": "Describe the purpose of the Entity-Relationship (ER) Model.",
+    "keywords": ["conceptual", "entities", "attributes", "visual representation", "design"],
+    "model_answer": "The Entity-Relationship model serves as a high-level conceptual data model utilized primarily during the initial database design phase. It provides a structured visual representation mapping out system entities, their defining attributes, and the relational mechanics interconnecting them. This abstracts away complex physical implementation details, effectively enabling architects to clarify and validate data flow patterns straightforwardly with organizational stakeholders before deployment."
+  },
+  {
+    "id": "DBMS_004",
+    "topic": "DBMS",
+    "difficulty": "easy",
+    "question": "What is a View in a database and why use it?",
+    "keywords": ["virtual table", "query", "complexity", "security", "restricting"],
+    "model_answer": "A View operates mathematically as a virtual table strictly derived from the result-set of a precompiled SQL query targeting underlying baseline tables. It does not chronically store structural data itself. Views are heavily utilized to mask data complexity from end users by summarizing multi-table logic. Furthermore, they enhance database security by aggressively restricting user interaction to specifically filtered rows or selectively exposed columns."
+  },
+  {
+    "id": "DBMS_005",
+    "topic": "DBMS",
+    "difficulty": "easy",
+    "question": "Differentiate between DDL and DML statements in SQL.",
+    "keywords": ["Data Definition", "schema", "structure", "Data Manipulation", "records"],
+    "model_answer": "DDL, or Data Definition Language, incorporates SQL statements configured to define or significantly modify the overarching database schema and structural objects, inclusive of tables and indexes. Common DDL commands feature CREATE, ALTER, and DROP. Alternatively, DML, translating to Data Manipulation Language, is directed explicitly at managing and querying the resident records trapped within those structure configurations. DML relies extensively on statements inherently like SELECT, INSERT, UPDATE, and DELETE."
+  },
+  {
+    "id": "DBMS_006",
+    "topic": "DBMS",
+    "difficulty": "medium",
+    "question": "Explain the stages of Normalization up to the Third Normal Form (3NF).",
+    "keywords": ["redundancy", "atomic values", "partial dependency", "primary key", "transitive dependency"],
+    "model_answer": "Normalization functionally mitigates redundancy and limits anomaly triggers. Reaching 1NF requires securing absolute atomic values ensuring no repeating tabular groups exist. Transitioning to 2NF mandates prevailing over 1NF requirements and simultaneously eliminating every partial dependency, securely coupling non-key traits uniquely to the entire primary key. Achieving 3NF demands satisfying 2NF while conclusively scrubbing any remaining transitive dependency, specifying explicitly that non-key attributes must never define other non-key attributes."
+  },
+  {
+    "id": "DBMS_007",
+    "topic": "DBMS",
+    "difficulty": "medium",
+    "question": "Compare an Inner Join to a Left Outer Join.",
+    "keywords": ["intersecting", "matching records", "all records", "NULL", "unfulfilled"],
+    "model_answer": "An Inner Join functions equivalently to an intersecting relational set, retrieving matching records strictly if conditional harmony exists across both evaluated tables, immediately discarding non-matching orphans. A Left Outer Join extracts naturally all records originating out of the primary left table regardless of conditions, padding unfulfilled matching columns tied to the secondary right table purely with NULL values. Left joins ensure the driving dataset preserves total operational continuity."
+  },
+  {
+    "id": "DBMS_008",
+    "topic": "DBMS",
+    "difficulty": "medium",
+    "question": "Why is Indexing critical, and how does it affect write operations?",
+    "keywords": ["read speeds", "retrieval", "pointers", "overhead", "insertions"],
+    "model_answer": "Indexing is profoundly critical as it exponentially accelerates data retrieval and overall read speeds by establishing dedicated architectural pointers navigating directly to target records, bypassing cumbersome full table scans. Despite dramatically optimizing search protocols, indexes generate perceptible overhead regarding write operations. Every time localized insertions, deletions, or structural modifications execute, parallel background transactions must physically update associated index branches, moderately restricting raw intake performance."
+  },
+  {
+    "id": "DBMS_009",
+    "topic": "DBMS",
+    "difficulty": "medium",
+    "question": "Clarify how database Transactions mitigate inconsistent states using Rollbacks.",
+    "keywords": ["sequential", "Commit", "failure", "undo log", "integrity"],
+    "model_answer": "A database transaction processes a sequential cluster of interdependent operations explicitly isolated as one indivisible execution string bound to strict constraints. When standard sequential updates succeed harmoniously, an authoritative Commit statement finalizes enduring storage. Conversely, if sudden code failure or logic errors manifest dynamically, a Rollback command leverages sequential undo log histories to completely reverse intermediary changes. Reverting perfectly restores systemic integrity entirely cleanly to the pristine starting state."
+  },
+  {
+    "id": "DBMS_010",
+    "topic": "DBMS",
+    "difficulty": "medium",
+    "question": "What is the difference between the WHERE clause and the HAVING clause?",
+    "keywords": ["filtering", "aggregation", "GROUP BY", "individual rows", "summary data"],
+    "model_answer": "Both the WHERE and HAVING clauses apply rigid conditions targeting data filtering, yet they operate systematically during distinct lifecycle phases of query mapping. The WHERE clause executes initially, directly eliminating individual rows structurally preceding any application of aggregation functions organically. In complete contrast, the HAVING clause actively applies strict filtering predominantly focused heavily onto aggregated summary data groups generated strictly following the implementation of the GROUP BY command."
+  },
+  {
+    "id": "DBMS_011",
+    "topic": "DBMS",
+    "difficulty": "hard",
+    "question": "Contrast B-Tree indexing against Hash indexing.",
+    "keywords": ["hierarchical", "sorting", "range queries", "hash function", "exact match"],
+    "model_answer": "B-Tree indexes configure data systematically within a balanced hierarchical traversal tree, retaining persistent sorting. This balanced mechanism delivers magnificent optimization regarding extensive range queries or conditional inequality searches like greater-than operators. Hash indexes operate drastically otherwise, aggressively feeding values straight into a sophisticated cryptographic hash function resolving into precise storage coordinates. Hash indexing dominates for sheer speed targeting absolute exact match queries but proves catastrophically useless servicing comprehensive sorting criteria."
+  },
+  {
+    "id": "DBMS_012",
+    "topic": "DBMS",
+    "difficulty": "hard",
+    "question": "What is Boyce-Codd Normal Form (BCNF) and how does it expand upon 3NF?",
+    "keywords": ["BCNF", "dependency", "superkey", "anomalies", "candidate keys"],
+    "model_answer": "Boyce-Codd Normal Form (BCNF) operates functionally as a dramatically stricter augmentation expanding the classical Third Normal Form protocol. A schema fundamentally sits squarely in BCNF strictly if, for every functional dependency mapping parameter X dictating Y, parameter X validates conclusively as a universally recognized superkey for the table. BCNF exists primarily to aggressively eradicate stubborn anomalies managing to survive 3NF parameters, particularly prevalent involving complex dependencies crossing overlapping candidate keys."
+  },
+  {
+    "id": "DBMS_013",
+    "topic": "DBMS",
+    "difficulty": "hard",
+    "question": "Describe the challenges of Phantom Reads versus Dirty Reads relative to Isolation Levels.",
+    "keywords": ["uncommitted data", "concurrent transaction", "Phantom Read", "insertions", "isolation"],
+    "model_answer": "A Dirty Read manifests devastatingly if a query interprets fluid uncommitted data being presently altered by some concurrent transaction that may potentially execute a disruptive rollback. A Phantom Read transpires subtly when subsequent recurrent queries analyzing ranges mysteriously reveal abruptly new records driven by simultaneous disparate insertions elsewhere. Read Committed prevents dirty scenarios, yet blocking elusive phantom occurrences stringently demands scaling towards the tremendously restrictive Serializable isolation level."
+  },
+  {
+    "id": "DBMS_014",
+    "topic": "DBMS",
+    "difficulty": "hard",
+    "question": "Compare Pessimistic Concurrency Control with Optimistic Concurrency Control.",
+    "keywords": ["contention", "locking", "conflicts", "validation phase", "throughput"],
+    "model_answer": "Pessimistic concurrency control aggressively assumes persistent contention, aggressively deploying rigid physical locking protocols completely prohibiting simultaneous adjustments toward shared records until the controlling transaction commits. Optimistic concurrency control radically assumes conflicts exist as fundamentally rare outliers. Optimistic models abstain entirely from blocking protocols, allowing multiple updates freely, but aggressively necessitate a final stringent validation phase immediately prior to finalizing commits to prevent simultaneous overwrites, ensuring exceptional high throughput regarding low-conflict environments."
+  },
+  {
+    "id": "DBMS_015",
+    "topic": "DBMS",
+    "difficulty": "hard",
+    "question": "Why might a Stored Procedure execute faster than an equivalent dynamic SQL query script?",
+    "keywords": ["precompiled", "execution plan", "caching", "compiling", "network traffic"],
+    "model_answer": "Stored procedures distinctly outpace dynamic queries heavily because their underlying instructional statements are entirely precompiled uniquely within the host database engine natively. Upon initial initialization, the database intricately builds and diligently retains an incredibly efficient calculated execution plan targeting caching mechanisms specifically oriented for the routine. Consequently, successive executions brilliantly skip heavy repetitive compiling overhead alongside simultaneously minimizing fragile network traffic transmissions containing massive raw query strings."
   }
 ]
